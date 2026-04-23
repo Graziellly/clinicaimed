@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Médicos - Clínica Vida</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            background: #f4f7fb;
+        }
+
+        .menu-lateral {
+            width: 230px;
+            min-height: 100vh;
+            background: #1f3c88;
+            color: white;
+            padding: 25px 20px;
+        }
+
+        .menu-lateral h2 {
+            margin-bottom: 20px;
+        }
+
+        .menu-lateral a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+
+        .menu-lateral a:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .logout {
+            background: linear-gradient(135deg, #3d6edb, #1f3c88);
+            text-align: center;
+        }
+
+        .logout:hover {
+            background: linear-gradient(135deg, #2f5fc7, #162d66);
+            transform: translateY(-1px);
+        }
+
+        .usuario-logado {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .conteudo {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+        }
+
+        h1 {
+            color: #1f3c88;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        .form-medicos {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .campo-box {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .campo-box label {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .campo-box input {
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .form-botoes {
+            grid-column: span 4;
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-primario {
+            background: linear-gradient(135deg, #3d6edb, #1f3c88);
+        }
+
+        .btn-primario:hover {
+            background: linear-gradient(135deg, #2e5cc2, #162d66);
+        }
+
+        .btn-excluir {
+            background: #e74c3c;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table th {
+            background: #1f3c88;
+            color: white;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .acoes {
+            display: flex;
+            justify-content: center;
+        }
+
+        .voltar-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 18px;
+            background: linear-gradient(135deg, #3d6edb, #1f3c88);
+            color: white;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.25s ease;
+        }
+
+        .voltar-link:hover {
+            background: linear-gradient(135deg, #2f5fc7, #162d66);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+
+<nav class="menu-lateral">
+    <h2>Clínica Vida</h2>
+
+    <p class="usuario-logado">
+        Olá, <span th:text="${session.usuarioLogado}"></span>
+    </p>
+
+    <a th:href="@{/}">Dashboard</a>
+    <a th:href="@{/pacientes}">Pacientes</a>
+    <a th:href="@{/medicos}">Médicos</a>
+    <a th:href="@{/consultas}">Consultas</a>
+    <a th:href="@{/logout}" class="logout">Sair</a>
+</nav>
+
+<div class="conteudo">
+    <div class="container">
+
+        <h1>Gestão de Médicos</h1>
+
+        <h2>Cadastrar Médico</h2>
+
+        <form th:action="@{/medicos/salvar}" method="post" class="form-medicos">
+            <div class="campo-box">
+                <label>Nome</label>
+                <input type="text" name="nome" placeholder="Digite o nome do médico" required>
+            </div>
+
+            <div class="campo-box">
+                <label>CRM</label>
+                <input type="text" name="crm" placeholder="Digite o CRM" required>
+            </div>
+
+            <div class="campo-box">
+                <label>Especialidade</label>
+                <input type="text" name="especialidade" placeholder="Digite a especialidade" required>
+            </div>
+
+            <div class="campo-box">
+                <label>E-mail</label>
+                <input type="email" name="email" placeholder="Digite o e-mail" required>
+            </div>
+
+            <div class="form-botoes">
+                <button type="submit" class="btn btn-primario">
+                    Salvar Médico
+                </button>
+            </div>
+        </form>
+
+        <h2>Lista de Médicos</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Especialidade</th>
+                    <th>CRM</th>
+                    <th>E-mail</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="m : ${medicos}">
+                    <td th:text="${m.nome}"></td>
+                    <td th:text="${m.especialidade}"></td>
+                    <td th:text="${m.crm}"></td>
+                    <td th:text="${m.email}"></td>
+                    <td class="acoes">
+                        <a th:href="@{'/medicos/excluir/' + ${m.id}}"
+                           class="btn btn-excluir"
+                           onclick="return confirm('Tem certeza que deseja excluir este médico?')">
+                            Excluir
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/}" class="voltar-link">Voltar</a>
+
+    </div>
+</div>
+
+</body>
+</html>

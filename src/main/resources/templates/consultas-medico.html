@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Minhas Consultas - Clínica Imed</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Arial", sans-serif;
+            background: linear-gradient(135deg, #eef4fb, #f7fbff);
+            color: #1e2a38;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 270px;
+            background: linear-gradient(180deg, #143d79, #295db5);
+            color: white;
+            padding: 30px 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 6px 0 20px rgba(20, 61, 121, 0.12);
+        }
+
+        .sidebar h2 {
+            margin: 0 0 25px;
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .usuario-logado {
+            background: rgba(255, 255, 255, 0.14);
+            padding: 14px 16px;
+            border-radius: 14px;
+            font-size: 15px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .nav-menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 14px 16px;
+            border-radius: 14px;
+            margin-bottom: 12px;
+            font-weight: 600;
+            transition: 0.25s ease;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.ativo {
+            background: rgba(255, 255, 255, 0.16);
+            transform: translateX(4px);
+        }
+
+        .sidebar-rodape {
+            font-size: 14px;
+            opacity: 0.9;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .conteudo {
+            flex: 1;
+            padding: 32px;
+        }
+
+        .topo {
+            margin-bottom: 25px;
+        }
+
+        .topo h1 {
+            margin: 0;
+            font-size: 34px;
+            color: #1f3c88;
+            font-weight: 800;
+        }
+
+        .topo p {
+            margin: 8px 0 0;
+            font-size: 15px;
+            color: #6d7f95;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 24px;
+            box-shadow: 0 12px 30px rgba(31, 60, 136, 0.08);
+            padding: 28px;
+        }
+
+        .card h3 {
+            margin: 0 0 8px;
+            font-size: 24px;
+            color: #1f3c88;
+        }
+
+        .card p {
+            margin: 0 0 22px;
+            color: #70839a;
+            font-size: 15px;
+        }
+
+        .tabela-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            min-width: 760px;
+        }
+
+        thead th {
+            background: #27479b;
+            color: white;
+            text-align: center;
+            padding: 16px 12px;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        thead th:first-child {
+            border-top-left-radius: 14px;
+        }
+
+        thead th:last-child {
+            border-top-right-radius: 14px;
+        }
+
+        tbody td {
+            background: white;
+            padding: 18px 12px;
+            border-bottom: 1px solid #edf2f7;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 15px;
+            color: #23364d;
+        }
+
+        tbody tr:hover td {
+            background: #f8fbff;
+        }
+
+        .badge-status {
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .status-agendada {
+            background: #e8f2ff;
+            color: #1f4fa3;
+        }
+
+        .status-realizada {
+            background: #e7f8ee;
+            color: #1f8b4c;
+        }
+
+        .status-cancelada {
+            background: #fdecec;
+            color: #c23b3b;
+        }
+
+        .sem-consultas {
+            background: #f8fbff;
+            border: 1px dashed #cddcf2;
+            color: #5f748d;
+            padding: 24px;
+            border-radius: 18px;
+            text-align: center;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .conteudo {
+                padding: 18px;
+            }
+
+            .topo h1 {
+                font-size: 27px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <aside class="sidebar">
+        <div>
+            <h2>Clínica Imed</h2>
+
+            <div class="usuario-logado">
+                Olá, <strong th:text="${nomeUsuario}">Médico</strong>
+            </div>
+
+            <nav class="nav-menu">
+                <a th:href="@{/dashboard-medico}">Dashboard</a>
+                <a th:href="@{/minhas-consultas}" class="ativo">Minhas Consultas</a>
+                <a th:href="@{/logout}">Sair</a>
+            </nav>
+        </div>
+
+        <div class="sidebar-rodape">
+            Painel do médico
+        </div>
+    </aside>
+
+    <main class="conteudo">
+        <div class="topo">
+            <h1>Minhas Consultas</h1>
+            <p>Acompanhe aqui todas as consultas vinculadas ao seu cadastro.</p>
+        </div>
+
+        <section class="card">
+            <h3>Agenda de Atendimentos</h3>
+            <p>Visualize os pacientes, datas, horários e status das suas consultas.</p>
+
+            <div th:if="${#lists.isEmpty(consultas)}" class="sem-consultas">
+                Você ainda não possui consultas agendadas.
+            </div>
+
+            <div th:if="${!#lists.isEmpty(consultas)}" class="tabela-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Paciente</th>
+                            <th>Data</th>
+                            <th>Hora</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="c : ${consultas}">
+                            <td th:text="${c.paciente.nome}">Paciente</td>
+                            <td th:text="${c.data}">2026-04-08</td>
+                            <td th:text="${c.hora}">08:00</td>
+                            <td>
+                                <span th:if="${c.status == 'Agendada'}"
+                                      class="badge-status status-agendada"
+                                      th:text="${c.status}">Agendada</span>
+
+                                <span th:if="${c.status == 'Realizada'}"
+                                      class="badge-status status-realizada"
+                                      th:text="${c.status}">Realizada</span>
+
+                                <span th:if="${c.status == 'Cancelada'}"
+                                      class="badge-status status-cancelada"
+                                      th:text="${c.status}">Cancelada</span>
+
+                                <span th:if="${c.status != 'Agendada' and c.status != 'Realizada' and c.status != 'Cancelada'}"
+                                      class="badge-status status-agendada"
+                                      th:text="${c.status}">Status</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Clínica Imed</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body {
+            margin: 0;
+            font-family: "Manrope", Arial, sans-serif;
+            background: linear-gradient(135deg, #22d1c3 0%, #3390f0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 440px;
+            background: rgba(255,255,255,0.92);
+            padding: 40px 32px;
+            border-radius: 28px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.18);
+        }
+
+        .login-box h1 {
+            margin: 0 0 10px;
+            color: #163b62;
+            font-size: 32px;
+        }
+
+        .login-box p {
+            color: #5e7288;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .login-box form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 16px 18px;
+            border-radius: 16px;
+            border: 1px solid #d7e5f2;
+            outline: none;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        .login-box input:focus {
+            border-color: #63c6ec;
+            box-shadow: 0 0 0 4px rgba(99, 198, 236, 0.15);
+        }
+
+        .login-box button {
+            border: none;
+            min-height: 54px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #22d1c3, #2b92ef);
+            color: white;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+
+        .erro {
+            margin-top: 16px;
+            color: #d93025;
+            font-weight: 700;
+        }
+
+        .credenciais {
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: 18px;
+            background: #f4f9fd;
+            color: #47627c;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .btn-cadastro {
+    display: block;
+    text-align: center;
+    margin-top: 12px;
+    padding: 14px;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+    color: #1f3c88;
+    background: #e9f4ff;
+    transition: 0.25s ease;
+}
+
+.btn-cadastro:hover {
+    background: #d7ecff;
+    transform: translateY(-1px);
+}
+    </style>
+</head>
+<body>
+
+<div class="login-box">
+    <h1>Login</h1>
+    <p>Entre com seu acesso da Clínica Imed.</p>
+
+    <form th:action="@{/login}" method="post">
+        <input type="email" name="email" placeholder="E-mail" required>
+        <input type="password" name="senha" placeholder="Senha" required>
+        <button type="submit">Entrar</button>
+
+<a th:href="@{/cadastro}" class="btn-cadastro">Criar conta</a>
+    </form>
+
+    <div class="erro" th:if="${erro}" th:text="${erro}"></div>
+
+</div>
+
+</body>
+</html>

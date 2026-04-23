@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitações - Clínica Imed</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #eef4fb, #f7fbff);
+            color: #1e2a38;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .menu-lateral {
+            width: 260px;
+            background: linear-gradient(180deg, #143d79, #295db5);
+            color: white;
+            padding: 28px 20px;
+        }
+
+        .menu-lateral h2 {
+            margin: 0 0 30px;
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .menu-lateral a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 14px 16px;
+            border-radius: 14px;
+            margin-bottom: 12px;
+            font-weight: 600;
+            transition: 0.25s ease;
+        }
+
+        .menu-lateral a:hover,
+        .menu-lateral a.ativo {
+            background: rgba(255, 255, 255, 0.16);
+            transform: translateX(4px);
+        }
+
+        .conteudo {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .topo {
+            margin-bottom: 25px;
+        }
+
+        .topo h1 {
+            margin: 0;
+            font-size: 32px;
+            color: #1f3c88;
+        }
+
+        .subtitulo {
+            margin: 6px 0 0;
+            color: #6d7f95;
+            font-size: 15px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 22px;
+            box-shadow: 0 10px 30px rgba(31, 60, 136, 0.08);
+            padding: 26px;
+            margin-bottom: 26px;
+        }
+
+        .card h2 {
+            margin: 0 0 18px;
+            color: #1f3c88;
+            font-size: 24px;
+        }
+
+        .form-solicitacao {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 16px;
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .campo label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #46607f;
+        }
+
+        .form-solicitacao input,
+        .form-solicitacao select,
+        .form-solicitacao textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d8e2ef;
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+            background: #fff;
+            transition: 0.25s ease;
+            font-family: inherit;
+        }
+
+        .form-solicitacao input:focus,
+        .form-solicitacao select:focus,
+        .form-solicitacao textarea:focus {
+            border-color: #1f3c88;
+            box-shadow: 0 0 0 4px rgba(31, 60, 136, 0.10);
+        }
+
+        .campo-textarea {
+            grid-column: 1 / -1;
+        }
+
+        .acoes-form {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 12px;
+            padding: 13px 18px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-salvar {
+            background: #1f3c88;
+            color: white;
+            min-width: 180px;
+        }
+
+        .btn-salvar:hover {
+            background: #17306d;
+            transform: translateY(-1px);
+        }
+
+        .btn-cancelar {
+            background: #e9eef7;
+            color: #1f3c88;
+            min-width: 160px;
+        }
+
+        .btn-cancelar:hover {
+            background: #dbe5f4;
+            transform: translateY(-1px);
+        }
+
+        .tabela-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            min-width: 1250px;
+        }
+
+        thead th {
+            background: #27479b;
+            color: white;
+            text-align: center;
+            padding: 16px 12px;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        thead th:first-child {
+            border-top-left-radius: 14px;
+        }
+
+        thead th:last-child {
+            border-top-right-radius: 14px;
+        }
+
+        tbody td {
+            padding: 20px 12px;
+            border-bottom: 1px solid #edf2f7;
+            background: white;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover td {
+            background: #f8fbff;
+        }
+
+        .valor {
+            font-size: 15px;
+            font-weight: 700;
+            color: #223248;
+            line-height: 1.35;
+            word-break: break-word;
+        }
+
+        .texto-observacao {
+            font-size: 14px;
+            color: #51657f;
+            line-height: 1.45;
+            max-width: 240px;
+            margin: 0 auto;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+            background: #e9eef7;
+            color: #1f3c88;
+        }
+
+  .acoes-tabela {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-editar,
+.btn-excluir,
+.btn-confirmar {
+    width: 120px;
+    text-align: center;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    transition: 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-editar {
+    background: #e7a640;
+}
+
+.btn-excluir {
+    background: #df5753;
+}
+
+.btn-confirmar {
+    background: #25D366;
+}
+
+.btn-editar:hover {
+    background: #d39331;
+    transform: translateY(-1px);
+}
+
+.btn-excluir:hover {
+    background: #c84440;
+    transform: translateY(-1px);
+}
+
+.btn-confirmar:hover {
+    background: #1ebe5d;
+    transform: translateY(-1px);
+}
+
+        .col-id {
+            font-weight: 700;
+            color: #34495e;
+        }
+
+        .sem-solicitacoes {
+            text-align: center;
+            padding: 28px !important;
+            color: #6e7f95;
+            font-weight: 600;
+        }
+
+        @media (max-width: 900px) {
+            .layout {
+                flex-direction: column;
+            }
+
+            .menu-lateral {
+                width: 100%;
+            }
+
+            .conteudo {
+                padding: 18px;
+            }
+
+            .topo h1 {
+                font-size: 26px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <aside class="menu-lateral">
+        <h2>Clínica Imed</h2>
+
+        <a th:href="@{/dashboard-recepcao}">Dashboard</a>
+        <a th:href="@{/pacientes}">Pacientes</a>
+        <a th:href="@{/medicos}">Médicos</a>
+        <a th:href="@{/consultas}">Consultas</a>
+        <a th:href="@{/solicitacoes}" class="ativo">Solicitações</a>
+        <a th:href="@{/login}">Sair</a>
+    </aside>
+
+    <main class="conteudo">
+        <div class="topo">
+            <h1>Gestão de Solicitações</h1>
+            <p class="subtitulo">Acompanhe e organize os pedidos enviados pelo site</p>
+        </div>
+
+        <section class="card">
+            <h2 th:text="${editando} ? 'Editar Solicitação' : 'Cadastrar Solicitação'">Cadastrar Solicitação</h2>
+
+            <form th:action="@{/solicitacoes/salvar}" th:object="${solicitacao}" method="post" class="form-solicitacao">
+                <input type="hidden" th:field="*{id}">
+
+                <div class="campo">
+                    <label for="nome">Nome</label>
+                    <input id="nome" type="text" th:field="*{nome}" placeholder="Digite o nome" required>
+                </div>
+
+                <div class="campo">
+                    <label for="telefone">Telefone</label>
+                    <input id="telefone" type="text" th:field="*{telefone}" placeholder="Digite o telefone" required>
+                </div>
+
+                <div class="campo">
+                    <label for="email">E-mail</label>
+                    <input id="email" type="email" th:field="*{email}" placeholder="Digite o e-mail" required>
+                </div>
+
+                <div class="campo">
+                    <label for="especialidade">Especialidade</label>
+                    <input id="especialidade" type="text" th:field="*{especialidade}" placeholder="Digite a especialidade" required>
+                </div>
+
+                <div class="campo">
+                    <label for="medico">Médico</label>
+                    <input id="medico" type="text" th:field="*{medico}" placeholder="Digite o médico desejado">
+                </div>
+
+                <div class="campo">
+                    <label for="dataConsulta">Data desejada</label>
+                    <input id="dataConsulta" type="date" th:field="*{dataConsulta}">
+                </div>
+
+                <div class="campo">
+                <label for="hora">Horário</label>
+                <input id="hora" type="time" th:field="*{hora}" required>
+                </div>
+
+                <div class="campo">
+                    <label for="status">Status</label>
+                    <select id="status" th:field="*{status}">
+                        <option value="">Selecione o status</option>
+                        <option value="Pendente">Pendente</option>
+                        <option value="Em análise">Em análise</option>
+                        <option value="Agendada">Agendada</option>
+                        <option value="Cancelada">Cancelada</option>
+                    </select>
+                </div>
+
+                <div class="campo campo-textarea">
+                    <label for="observacao">Observação</label>
+                    <textarea id="observacao" th:field="*{observacao}" rows="4" placeholder="Digite observações sobre a solicitação"></textarea>
+                </div>
+
+                <div class="acoes-form">
+                    <button type="submit"
+                            class="btn btn-salvar"
+                            th:text="${editando} ? 'Atualizar Solicitação' : 'Salvar Solicitação'">
+                        Salvar Solicitação
+                    </button>
+
+                    <a th:if="${editando}" th:href="@{/solicitacoes}" class="btn btn-cancelar">Cancelar edição</a>
+                </div>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Solicitações recebidas</h2>
+
+            <div class="tabela-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Telefone</th>
+                            <th>E-mail</th>
+                            <th>Especialidade</th>
+                            <th>Médico</th>
+                            <th>Data</th>
+                            <th>Hora</th>
+                            <th>Observação</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="s : ${solicitacoes}">
+                            <td class="col-id" th:text="${s.id}">1</td>
+                            <td><span class="valor" th:text="${s.nome}">Nome</span></td>
+                            <td><span class="valor" th:text="${s.telefone}">Telefone</span></td>
+                            <td><span class="valor" th:text="${s.email}">email@teste.com</span></td>
+                            <td><span class="valor" th:text="${s.especialidade}">Cardiologia</span></td>
+                            <td><span class="valor" th:text="${s.medico}">Dr. João</span></td>
+                            <td><span class="valor" th:text="${s.dataConsulta}">2026-04-06</span></td>
+                            <td><span class="valor" th:text="${s.hora}">08:00</span></td>
+                            <td><p class="texto-observacao" th:text="${s.observacao}">Observação</p></td>
+                            <td><span class="status" th:text="${s.status}">Pendente</span></td>
+                            <td>
+
+                            <div class="acoes-tabela">
+                            <a th:href="@{/solicitacoes/editar/{id}(id=${s.id})}" class="btn-editar">
+                                Editar
+                            </a>
+
+                            <a th:href="@{/solicitacoes/excluir/{id}(id=${s.id})}"
+                            class="btn-excluir"
+                            onclick="return confirm('Tem certeza que deseja excluir esta solicitação?')">
+                            Excluir
+                            </a>
+
+                            <a th:href="@{'/solicitacao/confirmar/' + ${s.id}}"
+                            class="btn-confirmar">
+                            Confirmar
+                            </a> 
+                            </div>
+                            </td>
+                        </tr>
+
+                        <tr th:if="${#lists.isEmpty(solicitacoes)}">
+                            <td colspan="10" class="sem-solicitacoes">Nenhuma solicitação cadastrada.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+
+</body>
+</html>

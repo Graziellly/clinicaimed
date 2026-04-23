@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Conta - Clínica Imed</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body {
+            margin: 0;
+            font-family: "Manrope", Arial, sans-serif;
+            background: linear-gradient(135deg, #22d1c3 0%, #3390f0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cadastro-box {
+            width: 100%;
+            max-width: 480px;
+            background: rgba(255,255,255,0.92);
+            padding: 40px 32px;
+            border-radius: 28px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.18);
+        }
+
+        .cadastro-box h1 {
+            margin: 0 0 10px;
+            color: #163b62;
+            font-size: 32px;
+        }
+
+        .cadastro-box p {
+            color: #5e7288;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .cadastro-box form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .cadastro-box input,
+        .cadastro-box select {
+            width: 100%;
+            padding: 16px 18px;
+            border-radius: 16px;
+            border: 1px solid #d7e5f2;
+            outline: none;
+            font-size: 15px;
+            box-sizing: border-box;
+            background: white;
+        }
+
+        .cadastro-box input:focus,
+        .cadastro-box select:focus {
+            border-color: #63c6ec;
+            box-shadow: 0 0 0 4px rgba(99, 198, 236, 0.15);
+        }
+
+        .cadastro-box button {
+            border: none;
+            min-height: 54px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #22d1c3, #2b92ef);
+            color: white;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+
+        .btn-voltar {
+            display: block;
+            text-align: center;
+            margin-top: 12px;
+            padding: 14px;
+            border-radius: 999px;
+            font-weight: 700;
+            text-decoration: none;
+            color: #1f3c88;
+            background: #e9f4ff;
+            transition: 0.25s ease;
+        }
+
+        .btn-voltar:hover {
+            background: #d7ecff;
+            transform: translateY(-1px);
+        }
+
+        .erro {
+            margin-top: 16px;
+            color: #d93025;
+            font-weight: 700;
+        }
+
+        .sucesso {
+            margin-top: 16px;
+            color: #188038;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+<div class="cadastro-box">
+    <h1>Criar conta</h1>
+    <p>Cadastre um novo acesso para a Clínica Imed.</p>
+
+    <form th:action="@{/cadastro}" th:object="${usuario}" method="post">
+        <input type="text" th:field="*{nome}" placeholder="Nome completo" required>
+        <input type="email" th:field="*{email}" placeholder="E-mail" required>
+        <input type="password" th:field="*{senha}" placeholder="Senha" required>
+
+        <select th:field="*{perfil}" required aria-label="Selecione o perfil">
+            <option value="">Selecione o perfil</option>
+            <option value="RECEPCAO">Recepção</option>
+            <option value="MEDICO">Médico</option>
+        </select>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <div class="erro" th:if="${erro}" th:text="${erro}"></div>
+    <div class="sucesso" th:if="${sucesso}" th:text="${sucesso}"></div>
+
+    <a th:href="@{/login}" class="btn-voltar">Voltar para login</a>
+</div>
+
+</body>
+</html>

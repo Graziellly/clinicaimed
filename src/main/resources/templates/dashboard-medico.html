@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard do Médico</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #edf4fb, #f8fbff);
+            color: #1d3557;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #173b8f, #2957b8);
+            color: white;
+            padding: 30px 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 8px 0 30px rgba(23, 59, 143, 0.15);
+        }
+
+        .sidebar-topo h2 {
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 25px;
+        }
+
+        .usuario-logado {
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 18px;
+            padding: 16px;
+            font-size: 16px;
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+
+        .usuario-logado strong {
+            display: block;
+            font-size: 19px;
+            margin-top: 4px;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            padding: 14px 16px;
+            border-radius: 14px;
+            transition: 0.25s ease;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.ativo {
+            background: white;
+            color: #1f4ca3;
+            transform: translateX(4px);
+        }
+
+        .sidebar-rodape {
+            font-size: 14px;
+            opacity: 0.85;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .conteudo {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .topo {
+            margin-bottom: 30px;
+        }
+
+        .topo h1 {
+            font-size: 46px;
+            color: #1f4596;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .topo p {
+            font-size: 19px;
+            color: #6882a6;
+        }
+
+        .resumo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card-resumo {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 14px 35px rgba(31, 69, 150, 0.08);
+            border: 1px solid rgba(193, 210, 235, 0.45);
+        }
+
+        .card-resumo span {
+            display: block;
+            font-size: 15px;
+            color: #7a90ad;
+            margin-bottom: 10px;
+        }
+
+        .card-resumo strong {
+            font-size: 32px;
+            color: #1f4596;
+            font-weight: 800;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.90);
+            border-radius: 28px;
+            padding: 28px;
+            box-shadow: 0 18px 45px rgba(31, 69, 150, 0.08);
+            border: 1px solid rgba(193, 210, 235, 0.40);
+            transition: 0.25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+        }
+
+        .card h3 {
+            font-size: 26px;
+            color: #214a9b;
+            margin-bottom: 14px;
+        }
+
+        .card p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #627d9f;
+            margin-bottom: 22px;
+        }
+
+        .btn-card {
+            display: inline-block;
+            text-decoration: none;
+            background: linear-gradient(135deg, #244fa8, #3b67cb);
+            color: white;
+            padding: 12px 22px;
+            border-radius: 14px;
+            font-weight: 700;
+            transition: 0.25s ease;
+        }
+
+        .btn-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(36, 79, 168, 0.22);
+        }
+
+        .painel-agenda {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 28px;
+            padding: 30px;
+            box-shadow: 0 18px 45px rgba(31, 69, 150, 0.08);
+            border: 1px solid rgba(193, 210, 235, 0.40);
+        }
+
+        .painel-agenda h2 {
+            font-size: 32px;
+            color: #214a9b;
+            margin-bottom: 10px;
+        }
+
+        .painel-agenda p {
+            color: #6c84a4;
+            font-size: 17px;
+            margin-bottom: 22px;
+        }
+
+        .lista-agenda {
+            display: grid;
+            gap: 16px;
+        }
+
+        .item-agenda {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: #f7faff;
+            border: 1px solid #e1ebf7;
+            transition: 0.25s ease;
+        }
+
+        .item-agenda:hover {
+            background: #eef5ff;
+        }
+
+        .agenda-info h4 {
+            font-size: 18px;
+            color: #24468f;
+            margin-bottom: 5px;
+        }
+
+        .agenda-info span {
+            font-size: 14px;
+            color: #7389a7;
+        }
+
+        .agenda-hora {
+            background: #e7f0ff;
+            color: #214a9b;
+            font-weight: 700;
+            padding: 10px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 900px) {
+            .layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-radius: 0 0 24px 24px;
+            }
+
+            .conteudo {
+                padding: 24px;
+            }
+
+            .topo h1 {
+                font-size: 34px;
+            }
+
+            .painel-agenda h2 {
+                font-size: 26px;
+            }
+
+            .item-agenda {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <aside class="sidebar">
+        <div class="sidebar-topo">
+            <h2>Clínica Imed</h2>
+
+            <div class="usuario-logado">
+                Olá,
+                <strong th:text="${nomeUsuario}">Dr. Carlos Lima</strong>
+            </div>
+
+            <nav class="nav-menu">
+                <a th:href="@{/dashboard-medico}" class="ativo">Dashboard</a>
+                <a th:href="@{/minhas-consultas}">Minhas Consultas</a>
+                <a th:href="@{/logout}">Sair</a>
+            </nav>
+        </div>
+
+        <div class="sidebar-rodape">
+            Painel exclusivo do médico
+        </div>
+    </aside>
+
+    <main class="conteudo">
+        <div class="topo">
+            <h1>Dashboard do Médico</h1>
+            <p>Visualize sua agenda, consultas e informações dos atendimentos.</p>
+        </div>
+
+        <div class="resumo">
+            <div class="card-resumo">
+                <span>Consultas Hoje</span>
+                <strong th:text="${consultasHoje != null ? consultasHoje : 0}">0</strong>
+            </div>
+
+            <div class="card-resumo">
+                <span>Total de Consultas</span>
+                <strong th:text="${totalConsultas != null ? totalConsultas : 0}">0</strong>
+            </div>
+
+            <div class="card-resumo">
+                <span>Próximos Atendimentos</span>
+                <strong th:text="${proximasConsultas != null ? proximasConsultas : 0}">0</strong>
+            </div>
+        </div>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Minhas Consultas</h3>
+                <p>Veja os atendimentos agendados, horários e dados principais dos pacientes de forma rápida e organizada.</p>
+                <a th:href="@{/minhas-consultas}" class="btn-card">Acessar</a>
+            </div>
+
+            <div class="card">
+                <h3>Agenda</h3>
+                <p>Organize melhor sua rotina de atendimentos e acompanhe os próximos horários disponíveis no sistema.</p>
+                <a th:href="@{/minhas-consultas}" class="btn-card">Ver agenda</a>
+            </div>
+
+            <div class="card">
+                <h3>Atendimentos</h3>
+                <p>Acompanhe informações importantes das consultas e tenha uma visão mais clara do seu fluxo de trabalho.</p>
+                <a th:href="@{/minhas-consultas}" class="btn-card">Visualizar</a>
+            </div>
+        </div>
+
+        <section class="painel-agenda">
+            <h2>Próximos Atendimentos</h2>
+            <p>Confira rapidamente os próximos pacientes agendados.</p>
+
+            <div class="lista-agenda">
+                <div class="item-agenda" th:each="consulta : ${consultas}">
+                    <div class="agenda-info">
+                        <h4 th:text="${consulta.paciente.nome}">Maria Grazielly</h4>
+                        <span th:text="${#temporals.format(consulta.data, 'dd/MM/yyyy')}">17/04/2026</span>
+                    </div>
+                    <div class="agenda-hora" th:text="${consulta.hora}">09:00</div>
+                </div>
+
+                <div th:if="${#lists.isEmpty(consultas)}" class="item-agenda">
+                    <div class="agenda-info">
+                        <h4>Nenhuma consulta agendada</h4>
+                        <span>Não há atendimentos cadastrados no momento.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+</body>
+</html>

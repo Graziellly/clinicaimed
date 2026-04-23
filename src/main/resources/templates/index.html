@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clínica Imed</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="mouse-light"></div>
+
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                Clínica Imed
+                <span>Cuidado que inspira confiança</span>
+            </div>
+
+            <div class="menu">
+                <a href="#inicio">Início</a>
+                <a href="#sobre">Sobre</a>
+                <a href="#medicos">Médicos</a>
+                <a href="#agendamento">Agendamento</a>
+                <a th:href="@{/login}" class="btn-topo">Entrar</a>
+            </div>
+        </nav>
+
+        <section class="hero" id="inicio">
+            <div class="hero-texto">
+
+                <h1>Saúde com cuidado, tecnologia e confiança.</h1>
+
+                <p>
+                    A Clínica Imed oferece atendimento humanizado, equipe qualificada
+                    e um ambiente moderno para cuidar da sua saúde com excelência.
+                </p>
+
+                <div class="hero-botoes">
+                    <a href="#agendamento" class="btn-principal">Agendar consulta</a>
+                    <a href="https://wa.me/5599999999999?text=Olá,%20gostaria%20de%20tirar%20uma%20dúvida%20ou%20agendar%20uma%20consulta"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn-secundario">
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-imagem">
+                <div class="card-medico-topo">
+                    <img th:src="@{/img/medicaa-removebg-preview.png}" alt="Médica">
+                </div>
+
+                <div class="card-medico-topo">
+                    <img th:src="@{/img/medico-removebg-preview.png}" alt="Médico">
+                </div>
+            </div>
+        </section>
+    </header>
+
+    <section class="destaques">
+        <div class="card-destaque">
+            <h3>Equipe qualificada</h3>
+            <p>
+                Profissionais preparados para oferecer atendimento seguro,
+                humano e eficiente.
+            </p>
+        </div>
+
+        <div class="card-destaque">
+            <h3>Atendimento moderno</h3>
+            <p>
+                Estrutura organizada para trazer conforto, rapidez e confiança
+                ao paciente.
+            </p>
+        </div>
+
+        <div class="card-destaque">
+            <h3>Agendamento fácil</h3>
+            <p>
+                Marque sua consulta pelo site e fale com a clínica rapidamente
+                pelo WhatsApp.
+            </p>
+        </div>
+    </section>
+
+    <section class="secao" id="sobre">
+        <div class="secao-titulo reveal">
+            <span>Sobre nós</span>
+            <h2>Conheça a Clínica Imed</h2>
+        </div>
+
+        <div class="sobre">
+            <div class="sobre-imagem-wrap reveal">
+                <img th:src="@{/img/3bf088c2b314bbc40974f7b668944c2f.jpg}" alt="Sobre a clínica">
+            </div>
+
+            <div class="sobre-texto reveal">
+                <p>
+                    A Clínica Imed nasceu com o objetivo de oferecer atendimento médico
+                    de qualidade, com profissionais experientes e foco no bem-estar do paciente.
+                </p>
+
+                <p>
+                    Nossa missão é unir tecnologia, organização e cuidado humanizado para
+                    proporcionar uma experiência completa em saúde.
+                </p>
+
+                <p>
+                    Trabalhamos com diversas especialidades e uma equipe comprometida com
+                    excelência, responsabilidade e confiança.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="secao" id="medicos">
+        <div class="secao-titulo reveal">
+            <span>Nossa equipe</span>
+            <h2>Médicos da clínica</h2>
+        </div>
+
+        <div class="cards-medicos">
+            <div class="card-medico reveal">
+                <img th:src="@{/img/ea92e56057cb7ec96064a9557c5537ad-removebg-preview.png}" alt="Dra. Ana Souza">
+                <div class="card-medico-info">
+                    <h3>Dra. Ana Souza</h3>
+                    <span class="especialidade">Cardiologia</span>
+                    <p>
+                        Especialista em prevenção, diagnóstico e acompanhamento
+                        da saúde cardiovascular.
+                    </p>
+                    <a href="#agendamento" class="btn-card">Agendar consulta</a>
+                </div>
+            </div>
+
+            <div class="card-medico reveal">
+                <img th:src="@{/img/13b5558d137a5978d7b5614280324086-removebg-preview.png}" alt="Dr. Carlos Lima">
+                <div class="card-medico-info">
+                    <h3>Dr. Carlos Lima</h3>
+                    <span class="especialidade">Clínico Geral</span>
+                    <p>
+                        Atendimento completo para avaliação clínica, orientação
+                        e acompanhamento contínuo.
+                    </p>
+                    <a href="#agendamento" class="btn-card">Agendar consulta</a>
+                </div>
+            </div>
+
+            <div class="card-medico reveal">
+                <img th:src="@{/img/b5e9d6a4a3966294793ea168f87195c5-removebg-preview.png}" alt="Dr. Rafael Mendes">
+                <div class="card-medico-info">
+                    <h3>Dr. Rafael Mendes</h3>
+                    <span class="especialidade">Ortopedia</span>
+                    <p>
+                        Especializado em diagnóstico e tratamento de dores,
+                        lesões e reabilitação ortopédica.
+                    </p>
+                    <a href="#agendamento" class="btn-card">Agendar consulta</a>
+                </div>
+            </div>
+
+                    <div class="card-medico reveal">
+                    <img src="/img/6f662c6bb53356a3fee4e3f00c46c0bd-removebg-preview.png" alt="Dra. Juliana Costa">
+                    <div class="card-medico-info">
+                    <h3>Dra. Juliana Costa</h3>
+                    <span class="especialidade">Dermatologia</span>
+                    <p>Especialista em cuidados com a pele, estética e tratamentos dermatológicos.</p>
+                    <a href="#agendamento" class="btn-card">Agendar consulta</a>
+                </div>
+            </div>
+
+<div class="card-medico reveal">
+    <img src="/img/f2f1fa3a611dfb4f4be81396ebca56eb-removebg-preview.png" alt="Dr. Marcos Silva">
+    <div class="card-medico-info">
+        <h3>Dr. Marcos Silva</h3>
+        <span class="especialidade">Neurologia</span>
+        <p>Atendimento especializado em doenças do sistema nervoso e acompanhamento neurológico.</p>
+        <a href="#agendamento" class="btn-card">Agendar consulta</a>
+    </div>
+</div>
+
+<div class="card-medico reveal">
+    <img th:src="@{/img/8bed44b776f70a59f419c6b3172e20de-removebg-preview.png}" alt="Dr. Felipe Andrade">
+    <div class="card-medico-info">
+        <h3>Dr. Felipe Andrade</h3>
+        <span class="especialidade">Pediatria</span>
+        <p>
+            Atendimento especializado em saúde infantil, acompanhamento do desenvolvimento
+            e cuidados preventivos para crianças.
+        </p>
+        <a href="#agendamento" class="btn-card">Agendar consulta</a>
+    </div>
+</div>
+        </div>
+    </section>
+
+    <section class="agendamento" id="agendamento">
+        <div class="secao-titulo reveal">
+            <span>Agendamento</span>
+            <h2>Solicite sua consulta</h2>
+        </div>
+
+        <form class="form-agendamento reveal"
+      th:action="@{/agendamento/enviar}"
+      th:object="${solicitacao}"
+      method="post">
+
+    <div class="form-grid">
+        <input type="text" th:field="*{nome}" placeholder="Nome completo" required>
+        <input type="text" th:field="*{telefone}" placeholder="Telefone" required>
+        <input type="email" th:field="*{email}" placeholder="E-mail" required>
+
+        <select th:field="*{especialidade}" required title="Escolha a especialidade">
+            <option value="">Escolha a especialidade</option>
+            <option value="Cardiologia">Cardiologia</option>
+            <option value="Clínico Geral">Clínico Geral</option>
+            <option value="Ortopedia">Ortopedia</option>
+            <option value="Dermatologia">Dermatologia</option>
+            <option value="Neurologia">Neurologia</option>
+            <option value="Pediatria">Pediatria</option>
+        </select>
+
+        <select th:field="*{medico}" title="Escolha o médico">
+            <option value="">Escolha o médico</option>
+            <option value="Dra. Ana Souza">Dra. Ana Souza</option>
+            <option value="Dr. Carlos Lima">Dr. Carlos Lima</option>
+            <option value="Dr. Rafael Mendes">Dr. Rafael Mendes</option>
+            <option value="Dra. Juliana Costa">Dra. Juliana Costa</option>
+            <option value="Dr. Marcos Silva">Dr. Marcos Silva</option>
+            <option value="Dr. Felipe Andrade">Dr. Felipe Andrade</option>
+        </select>
+
+        <input type="date" th:field="*{dataConsulta}" title="Data da consulta" placeholder="Data da consulta">
+
+       <select id="hora" th:field="*{hora}" required title="Escolha o horário">
+       <option value="">Escolha o horário</option>
+       </select>
+
+       <p id="avisoHorario" class="aviso-horario"></p>
+
+        <textarea th:field="*{observacao}"
+        placeholder="Descreva sua necessidade ou observação"></textarea>
+    </div>
+
+    <button type="submit">Enviar solicitação</button>
+</form>
+    </section>
+
+    <footer class="rodape">
+        <div class="rodape-conteudo">
+            <div>
+                <strong>Clínica Imed</strong>
+                <p>Cuidado, confiança e excelência em saúde.</p>
+            </div>
+
+            <div>
+                <p>Contato: (84) 99999-9999</p>
+                <p>Email: atendimento@clinicaimed.com</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/5599999999999?text=Olá,%20gostaria%20de%20tirar%20uma%20dúvida%20ou%20agendar%20uma%20consulta"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="whatsapp-fixo"
+       aria-label="Falar no WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <script>
+    const itensReveal = document.querySelectorAll(".reveal, .card-destaque");
+    const mouseLight = document.querySelector(".mouse-light");
+    const cards3D = document.querySelectorAll(".card-medico, .card-destaque, .card-medico-topo");
+    const hoverItems = document.querySelectorAll(
+        ".btn-principal, .btn-secundario, .btn-card, .card-medico, .card-destaque, .card-medico-topo, .btn-topo"
+    );
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let currentX = mouseX;
+    let currentY = mouseY;
+
+    function revelarAoRolar() {
+        const pontoTela = window.innerHeight * 0.88;
+
+        itensReveal.forEach((item, index) => {
+            const topo = item.getBoundingClientRect().top;
+
+            if (topo < pontoTela) {
+                setTimeout(() => {
+                    item.classList.add("show");
+                }, index * 70);
+            }
+        });
+    }
+
+    window.addEventListener("scroll", revelarAoRolar);
+    window.addEventListener("load", revelarAoRolar);
+
+    document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    function animarLuzMouse() {
+        currentX += (mouseX - currentX) * 0.12;
+        currentY += (mouseY - currentY) * 0.12;
+
+        if (mouseLight) {
+            mouseLight.style.left = currentX + "px";
+            mouseLight.style.top = currentY + "px";
+        }
+
+        requestAnimationFrame(animarLuzMouse);
+    }
+
+    hoverItems.forEach((item) => {
+        item.addEventListener("mouseenter", () => {
+            if (mouseLight) {
+                mouseLight.style.width = "180px";
+                mouseLight.style.height = "180px";
+                mouseLight.style.opacity = "1";
+            }
+        });
+
+        item.addEventListener("mouseleave", () => {
+            if (mouseLight) {
+                mouseLight.style.width = "140px";
+                mouseLight.style.height = "140px";
+                mouseLight.style.opacity = "0.9";
+            }
+        });
+    });
+
+    cards3D.forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = ((y - centerY) / centerY) * -5;
+            const rotateY = ((x - centerX) / centerX) * 5;
+
+            card.style.transform =
+                `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+        });
+
+        card.addEventListener("mouseleave", () => {
+            card.style.transform = "";
+        });
+    });
+
+    revelarAoRolar();
+    animarLuzMouse();
+</script>
+
+<script>
+    const medicoSelect = document.querySelector('[name="medico"]');
+    const dataInput = document.querySelector('[name="dataConsulta"]');
+    const horaSelect = document.getElementById('hora');
+    const avisoHorario = document.getElementById('avisoHorario');
+
+    const horariosBase = [
+        "08:00", "09:00", "10:00", "11:00",
+        "14:00", "15:00", "16:00", "17:00"
+    ];
+
+    async function carregarHorarios() {
+        if (!medicoSelect || !dataInput || !horaSelect || !avisoHorario) {
+            return;
+        }
+
+        const medico = medicoSelect.value;
+        const data = dataInput.value;
+
+        horaSelect.innerHTML = '<option value="">Escolha o horário</option>';
+        avisoHorario.textContent = "";
+
+        if (!medico || !data) {
+            return;
+        }
+
+        try {
+            const resposta = await fetch(`/api/horarios-disponiveis?medico=${encodeURIComponent(medico)}&data=${encodeURIComponent(data)}`);
+            const horariosDisponiveis = await resposta.json();
+
+            horariosBase.forEach(horario => {
+                const option = document.createElement("option");
+                option.value = horario;
+
+                if (horariosDisponiveis.includes(horario)) {
+                    option.textContent = `${horario} - Disponível`;
+                } else {
+                    option.textContent = `${horario} - Ocupado`;
+                    option.disabled = true;
+                }
+
+                horaSelect.appendChild(option);
+            });
+
+            if (horariosDisponiveis.length === 0) {
+                avisoHorario.textContent = "Não há horários disponíveis para esse médico nesta data.";
+            }
+        } catch (error) {
+            avisoHorario.textContent = "Erro ao carregar horários.";
+        }
+    }
+
+    if (medicoSelect && dataInput) {
+        medicoSelect.addEventListener("change", carregarHorarios);
+        dataInput.addEventListener("change", carregarHorarios);
+    }
+</script>
+</body>
+</html>
