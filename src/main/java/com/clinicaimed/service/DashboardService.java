@@ -3,8 +3,6 @@ package com.clinicaimed.service;
 import com.clinicaimed.repository.ConsultaRepository;
 import com.clinicaimed.repository.MedicoRepository;
 import com.clinicaimed.repository.PacienteRepository;
-
-import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -45,8 +43,7 @@ public class DashboardService {
                 .count();
     }
 
-    public @Nullable Object solicitacoesPendentes() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'solicitacoesPendentes'");
+    public long solicitacoesPendentes() {
+        return 0;
     }
 }
