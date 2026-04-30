@@ -84,15 +84,19 @@ public class DashboardController {
             return "dashboard-medico";
         }
 
-        Medico medico = medicoRepository.findByEmail(email).orElse(null);
+       Medico medico = medicoRepository.findAll()
+        .stream()
+        .filter(m -> m.getEmail() != null && m.getEmail().equalsIgnoreCase(email))
+        .findFirst()
+        .orElse(null);
 
-        if (medico == null) {
-            model.addAttribute("consultas", Collections.emptyList());
-            model.addAttribute("consultasHoje", 0);
-            model.addAttribute("totalConsultas", 0);
-            model.addAttribute("proximasConsultas", 0);
-            return "dashboard-medico";
-        }
+if (medico == null) {
+    model.addAttribute("consultas", Collections.emptyList());
+    model.addAttribute("consultasHoje", 0);
+    model.addAttribute("totalConsultas", 0);
+    model.addAttribute("proximasConsultas", 0);
+    return "dashboard-medico";
+}
 
         List<Consulta> consultas = consultaRepository.findByMedico(medico);
 

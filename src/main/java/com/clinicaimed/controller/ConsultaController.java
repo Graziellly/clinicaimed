@@ -169,14 +169,18 @@ public class ConsultaController {
             return "consultas-medico";
         }
 
-        Medico medico = medicoRepository.findByEmail(email).orElse(null);
+        Medico medico = medicoRepository.findAll()
+        .stream()
+        .filter(m -> m.getEmail() != null && m.getEmail().equalsIgnoreCase(email))
+        .findFirst()
+        .orElse(null);
 
-        if (medico == null) {
-            model.addAttribute("erro", "Nenhum médico cadastrado com o e-mail: " + email);
-            model.addAttribute("nomeUsuario", session.getAttribute("usuarioLogado"));
-            model.addAttribute("consultas", java.util.Collections.emptyList());
-            return "consultas-medico";
-        }
+if (medico == null) {
+    model.addAttribute("erro", "Nenhum médico cadastrado com o e-mail: " + email);
+    model.addAttribute("nomeUsuario", session.getAttribute("usuarioLogado"));
+    model.addAttribute("consultas", java.util.Collections.emptyList());
+    return "consultas-medico";
+}
 
         model.addAttribute("nomeUsuario", session.getAttribute("usuarioLogado"));
         model.addAttribute("consultas", consultaRepository.findByMedico(medico));
