@@ -17,10 +17,12 @@ public class WebConfig implements WebMvcConfigurer {
                         "/cadastro",
                         "/acesso-negado",
                         "/css/**",
+                        "/img/**",
                         "/js/**",
-                        "/images/**",
                         "/webjars/**",
-                        "/error"
+                        "/error",
+                        "/agendamento/**",
+                        "/api/horarios-disponiveis"
                 );
     }
 }
