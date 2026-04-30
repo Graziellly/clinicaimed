@@ -94,7 +94,7 @@ public class SolicitacaoController {
     public String enviarSolicitacaoPublica(@ModelAttribute Solicitacao solicitacao) {
         solicitacao.setStatus("Pendente");
         solicitacaoRepository.save(solicitacao);
-        return "redirect:/site?sucesso";
+        return "redirect:/?sucesso";
     }
 
     @GetMapping("/solicitacao/confirmar/{id}")
