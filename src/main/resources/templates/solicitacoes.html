@@ -326,58 +326,38 @@
             }
         }
 
-        .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(10, 20, 40, 0.55);
-    backdrop-filter: blur(6px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-}
-
-.modal-overlay.ativo {
-    display: flex;
-}
-
-.modal-card {
-    width: 420px;
+        .modal-card {
+    width: 430px;
     max-width: 90%;
     background: #ffffff;
-    border-radius: 24px;
-    padding: 32px;
+    border-radius: 28px;
+    padding: 34px;
     text-align: center;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
-    animation: aparecerModal 0.25s ease;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+    animation: modalPremium 0.35s ease;
 }
 
 .modal-card h2 {
     color: #1f4690;
-    font-size: 26px;
+    font-size: 28px;
     margin-bottom: 12px;
 }
 
 .modal-card p {
     color: #51627a;
     font-size: 16px;
-    margin-bottom: 26px;
-}
-
-.modal-botoes {
-    display: flex;
-    justify-content: center;
-    gap: 14px;
+    margin-bottom: 28px;
 }
 
 .btn-cancelar,
 .btn-confirmar {
     border: none;
-    padding: 12px 24px;
-    border-radius: 14px;
-    font-weight: 700;
+    padding: 13px 28px;
+    border-radius: 16px;
+    font-weight: 800;
     cursor: pointer;
     text-decoration: none;
+    transition: all 0.25s ease;
 }
 
 .btn-cancelar {
@@ -385,19 +365,33 @@
     color: #1f4690;
 }
 
-.btn-confirmar {
-    background: #dc3545;
-    color: white;
+.btn-cancelar:hover {
+    background: #d9e5f7;
+    transform: translateY(-3px) scale(1.04);
 }
 
-@keyframes aparecerModal {
-    from {
+.btn-confirmar {
+    background: linear-gradient(135deg, #ff4d5f, #c82333);
+    color: white;
+    box-shadow: 0 12px 28px rgba(220, 53, 69, 0.35);
+}
+
+.btn-confirmar:hover {
+    transform: translateY(-3px) scale(1.06);
+    box-shadow: 0 18px 38px rgba(220, 53, 69, 0.45);
+}
+
+@keyframes modalPremium {
+    0% {
         opacity: 0;
-        transform: translateY(20px) scale(0.96);
+        transform: scale(0.82) translateY(35px);
     }
-    to {
+    60% {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: scale(1.04) translateY(-4px);
+    }
+    100% {
+        transform: scale(1) translateY(0);
     }
 }
 
