@@ -60,15 +60,15 @@ public class PacienteController {
 
     @GetMapping("/pacientes/excluir/{id}")
     public String excluirPaciente(@PathVariable Long id, HttpSession session) {
-        if (session.getAttribute("usuarioLogado") == null) {
-            return "redirect:/login";
-        }
-
-        if (consultaRepository.existsByPacienteId(id)) {
-            return "redirect:/pacientes?erro=Paciente possui consulta cadastrada";
-        }
-
-        pacienteRepository.deleteById(id);
-        return "redirect:/pacientes";
+    if (session.getAttribute("usuarioLogado") == null) {
+        return "redirect:/login";
     }
+
+    if (consultaRepository.existsByPaciente_Id(id)) {
+        return "redirect:/pacientes?erro=Paciente possui consulta cadastrada";
+    }
+
+    pacienteRepository.deleteById(id);
+    return "redirect:/pacientes";
+}
 }
