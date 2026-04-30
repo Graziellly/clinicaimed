@@ -7,9 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -59,12 +57,7 @@
         }
 
         .topo {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
             margin-bottom: 25px;
-            flex-wrap: wrap;
         }
 
         .topo h1 {
@@ -113,7 +106,7 @@
 
         .form-paciente input {
             width: 100%;
-            padding: 14px 14px;
+            padding: 14px;
             border: 1px solid #d8e2ef;
             border-radius: 12px;
             font-size: 15px;
@@ -257,13 +250,8 @@
             background: #df5753;
         }
 
-        .btn-editar:hover {
-            background: #d39331;
-            transform: translateY(-1px);
-        }
-
+        .btn-editar:hover,
         .btn-excluir:hover {
-            background: #c84440;
             transform: translateY(-1px);
         }
 
@@ -277,6 +265,118 @@
             padding: 28px !important;
             color: #6e7f95;
             font-weight: 600;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(8, 18, 35, 0.55);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s ease;
+        }
+
+        .modal-overlay.ativo {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            width: 430px;
+            max-width: 90%;
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 34px;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+            transform: scale(0.82) translateY(35px);
+            transition: 0.35s ease;
+        }
+
+        .modal-overlay.ativo .modal-card {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-card h2 {
+            color: #1f4690;
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .modal-card p {
+            color: #51627a;
+            font-size: 16px;
+            margin-bottom: 28px;
+        }
+
+        .modal-botoes {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .btn-modal-cancelar,
+        .btn-modal-excluir {
+            border: none;
+            padding: 13px 28px;
+            border-radius: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .btn-modal-cancelar {
+            background: #e8eef8;
+            color: #1f4690;
+        }
+
+        .btn-modal-cancelar:hover {
+            background: #d9e5f7;
+            transform: translateY(-3px) scale(1.04);
+        }
+
+        .btn-modal-excluir {
+            background: linear-gradient(135deg, #ff4d5f, #c82333);
+            color: white;
+            box-shadow: 0 12px 28px rgba(220, 53, 69, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-modal-excluir:hover {
+            transform: translateY(-3px) scale(1.06);
+            box-shadow: 0 18px 38px rgba(220, 53, 69, 0.45);
+        }
+
+        .btn-modal-excluir:active,
+        .btn-modal-cancelar:active {
+            transform: scale(0.96);
+        }
+
+        .btn-modal-excluir::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: rgba(255,255,255,0.35);
+            transform: skewX(-25deg);
+        }
+
+        .btn-modal-excluir:hover::after {
+            animation: brilho 0.6s ease;
+        }
+
+        @keyframes brilho {
+            from { left: -75%; }
+            to { left: 130%; }
         }
 
         @media (max-width: 900px) {
@@ -302,6 +402,7 @@
         }
     </style>
 </head>
+
 <body>
 
 <div class="layout">
@@ -368,64 +469,97 @@
             <div class="tabela-wrap">
                 <table>
                     <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Telefone</th>
-                            <th>E-mail</th>
-                            <th>CPF</th>
-                            <th>Ações</th>
-                        </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>E-mail</th>
+                        <th>CPF</th>
+                        <th>Ações</th>
+                    </tr>
                     </thead>
+
                     <tbody>
-                        <tr th:each="p : ${pacientes}">
-                            <td class="col-id" th:text="${p.id}">1</td>
+                    <tr th:each="p : ${pacientes}">
+                        <td class="col-id" th:text="${p.id}">1</td>
 
-                            <td>
-                                <div class="coluna-info">
-                                    <span class="valor" th:text="${p.nome}">Nome do paciente</span>
-                                </div>
-                            </td>
+                        <td>
+                            <div class="coluna-info">
+                                <span class="valor" th:text="${p.nome}">Nome do paciente</span>
+                            </div>
+                        </td>
 
-                            <td>
-                                <div class="coluna-info">
-                                    <span class="valor" th:text="${p.telefone}">84999999999</span>
-                                </div>
-                            </td>
+                        <td>
+                            <div class="coluna-info">
+                                <span class="valor" th:text="${p.telefone}">84999999999</span>
+                            </div>
+                        </td>
 
-                            <td>
-                                <div class="coluna-info">
-                                    <span class="valor" th:text="${p.email}">email@teste.com</span>
-                                </div>
-                            </td>
+                        <td>
+                            <div class="coluna-info">
+                                <span class="valor" th:text="${p.email}">email@teste.com</span>
+                            </div>
+                        </td>
 
-                            <td>
-                                <div class="coluna-info">
-                                    <span class="valor" th:text="${p.cpf}">000.000.000-00</span>
-                                </div>
-                            </td>
+                        <td>
+                            <div class="coluna-info">
+                                <span class="valor" th:text="${p.cpf}">000.000.000-00</span>
+                            </div>
+                        </td>
 
-                            <td>
-                                <div class="acoes-tabela">
-                                    <a th:href="@{/pacientes/editar/{id}(id=${p.id})}" class="btn-editar">Editar</a>
-                                    <a th:href="@{/pacientes/excluir/{id}(id=${p.id})}"
-                                       class="btn-excluir"
-                                       onclick="return confirm('Tem certeza que deseja excluir este paciente?')">
-                                        Excluir
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
+                        <td>
+                            <div class="acoes-tabela">
+                                <a th:href="@{/pacientes/editar/{id}(id=${p.id})}" class="btn-editar">Editar</a>
 
-                        <tr th:if="${#lists.isEmpty(pacientes)}">
-                            <td colspan="6" class="no-pacientes">Nenhum paciente cadastrado.</td>
-                        </tr>
+                                <a href="#"
+                                   class="btn-excluir"
+                                   th:attr="data-url=@{/pacientes/excluir/{id}(id=${p.id})}"
+                                   onclick="abrirModalExcluirPaciente(this); return false;">
+                                    Excluir
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(pacientes)}">
+                        <td colspan="6" class="no-pacientes">Nenhum paciente cadastrado.</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
         </section>
     </main>
 </div>
+
+<div id="modalExcluirPaciente" class="modal-overlay">
+    <div class="modal-card">
+        <h2>Excluir paciente?</h2>
+        <p>Deseja excluir este paciente?</p>
+
+        <div class="modal-botoes">
+            <button type="button" onclick="fecharModalExcluirPaciente()" class="btn-modal-cancelar">Cancelar</button>
+            <a id="btnConfirmarExcluirPaciente" href="#" class="btn-modal-excluir">Excluir</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function abrirModalExcluirPaciente(elemento) {
+        const url = elemento.getAttribute("data-url");
+        document.getElementById("btnConfirmarExcluirPaciente").setAttribute("href", url);
+        document.getElementById("modalExcluirPaciente").classList.add("ativo");
+    }
+
+    function fecharModalExcluirPaciente() {
+        document.getElementById("modalExcluirPaciente").classList.remove("ativo");
+    }
+
+    document.getElementById("modalExcluirPaciente").addEventListener("click", function (event) {
+        if (event.target === this) {
+            fecharModalExcluirPaciente();
+        }
+    });
+</script>
 
 </body>
 </html>
