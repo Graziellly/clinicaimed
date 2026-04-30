@@ -326,6 +326,81 @@
             }
         }
 
+        .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 20, 40, 0.55);
+    backdrop-filter: blur(6px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.modal-overlay.ativo {
+    display: flex;
+}
+
+.modal-card {
+    width: 420px;
+    max-width: 90%;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 32px;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+    animation: aparecerModal 0.25s ease;
+}
+
+.modal-card h2 {
+    color: #1f4690;
+    font-size: 26px;
+    margin-bottom: 12px;
+}
+
+.modal-card p {
+    color: #51627a;
+    font-size: 16px;
+    margin-bottom: 26px;
+}
+
+.modal-botoes {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+}
+
+.btn-cancelar,
+.btn-confirmar {
+    border: none;
+    padding: 12px 24px;
+    border-radius: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-cancelar {
+    background: #e8eef8;
+    color: #1f4690;
+}
+
+.btn-confirmar {
+    background: #dc3545;
+    color: white;
+}
+
+@keyframes aparecerModal {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
     </style>
 </head>
 <body>
@@ -456,9 +531,10 @@
                                 Editar
                             </a>
 
-                            <a th:href="@{/solicitacoes/excluir/{id}(id=${s.id})}"
+                            <a href="#"
                             class="btn-excluir"
-                            onclick="return confirm('Tem certeza que deseja excluir esta solicitação?')">
+                            th:attr="data-url=@{/solicitacoes/excluir/{id}(id=${s.id})}"
+                            onclick="abrirModalExcluir(this)">
                             Excluir
                             </a>
 
@@ -479,6 +555,30 @@
         </section>
     </main>
 </div>
+
+<div id="modalExcluir" class="modal-overlay">
+    <div class="modal-card">
+        <h2>Excluir solicitação?</h2>
+        <p>Deseja excluir essa solicitação?</p>
+
+        <div class="modal-botoes">
+            <button onclick="fecharModalExcluir()" class="btn-cancelar">Cancelar</button>
+            <a id="btnConfirmarExcluir" class="btn-confirmar">Excluir</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function abrirModalExcluir(elemento) {
+        const url = elemento.getAttribute("data-url");
+        document.getElementById("btnConfirmarExcluir").setAttribute("href", url);
+        document.getElementById("modalExcluir").classList.add("ativo");
+    }
+
+    function fecharModalExcluir() {
+        document.getElementById("modalExcluir").classList.remove("ativo");
+    }
+</script>
 
 </body>
 </html>
