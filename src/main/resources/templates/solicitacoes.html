@@ -7,9 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -58,10 +56,6 @@
             padding: 30px;
         }
 
-        .topo {
-            margin-bottom: 25px;
-        }
-
         .topo h1 {
             margin: 0;
             font-size: 32px;
@@ -69,7 +63,7 @@
         }
 
         .subtitulo {
-            margin: 6px 0 0;
+            margin: 6px 0 25px;
             color: #6d7f95;
             font-size: 15px;
         }
@@ -116,7 +110,6 @@
             font-size: 15px;
             outline: none;
             background: #fff;
-            transition: 0.25s ease;
             font-family: inherit;
         }
 
@@ -146,10 +139,6 @@
             font-weight: 700;
             cursor: pointer;
             text-decoration: none;
-            transition: 0.25s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .btn-salvar {
@@ -160,18 +149,6 @@
 
         .btn-salvar:hover {
             background: #17306d;
-            transform: translateY(-1px);
-        }
-
-        .btn-cancelar {
-            background: #e9eef7;
-            color: #1f3c88;
-            min-width: 160px;
-        }
-
-        .btn-cancelar:hover {
-            background: #dbe5f4;
-            transform: translateY(-1px);
         }
 
         .tabela-wrap {
@@ -210,10 +187,6 @@
             vertical-align: middle;
         }
 
-        tbody tr:hover td {
-            background: #f8fbff;
-        }
-
         .valor {
             font-size: 15px;
             font-weight: 700;
@@ -240,57 +213,47 @@
             color: #1f3c88;
         }
 
-  .acoes-tabela {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
+        .acoes-tabela {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
 
-.btn-editar,
-.btn-excluir,
-.btn-confirmar {
-    width: 120px;
-    text-align: center;
-    color: white;
-    padding: 10px 14px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 700;
-    transition: 0.25s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
+        .btn-editar,
+        .btn-excluir,
+        .btn-confirmar-solicitacao {
+            width: 120px;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            transition: 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.btn-editar {
-    background: #e7a640;
-}
+        .btn-editar {
+            background: #e7a640;
+        }
 
-.btn-excluir {
-    background: #df5753;
-}
+        .btn-excluir {
+            background: #df5753;
+        }
 
-.btn-confirmar {
-    background: #25D366;
-}
+        .btn-confirmar-solicitacao {
+            background: #25D366;
+            box-shadow: 0 10px 22px rgba(37, 211, 102, 0.28);
+        }
 
-.btn-editar:hover {
-    background: #d39331;
-    transform: translateY(-1px);
-}
-
-.btn-excluir:hover {
-    background: #c84440;
-    transform: translateY(-1px);
-}
-
-.btn-confirmar:hover {
-    background: #1ebe5d;
-    transform: translateY(-1px);
-}
+        .btn-editar:hover,
+        .btn-excluir:hover,
+        .btn-confirmar-solicitacao:hover {
+            transform: translateY(-2px) scale(1.03);
+        }
 
         .col-id {
             font-weight: 700;
@@ -302,6 +265,119 @@
             padding: 28px !important;
             color: #6e7f95;
             font-weight: 600;
+        }
+
+        /* MODAL CENTRALIZADO */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(8, 18, 35, 0.55);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s ease;
+        }
+
+        .modal-overlay.ativo {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            width: 430px;
+            max-width: 90%;
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 34px;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+            transform: scale(0.82) translateY(35px);
+            transition: 0.35s ease;
+        }
+
+        .modal-overlay.ativo .modal-card {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-card h2 {
+            color: #1f4690;
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .modal-card p {
+            color: #51627a;
+            font-size: 16px;
+            margin-bottom: 28px;
+        }
+
+        .modal-botoes {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .btn-cancelar,
+        .btn-modal-excluir {
+            border: none;
+            padding: 13px 28px;
+            border-radius: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .btn-cancelar {
+            background: #e8eef8;
+            color: #1f4690;
+        }
+
+        .btn-cancelar:hover {
+            background: #d9e5f7;
+            transform: translateY(-3px) scale(1.04);
+        }
+
+        .btn-modal-excluir {
+            background: linear-gradient(135deg, #ff4d5f, #c82333);
+            color: white;
+            box-shadow: 0 12px 28px rgba(220, 53, 69, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-modal-excluir:hover {
+            transform: translateY(-3px) scale(1.06);
+            box-shadow: 0 18px 38px rgba(220, 53, 69, 0.45);
+        }
+
+        .btn-modal-excluir:active,
+        .btn-cancelar:active {
+            transform: scale(0.96);
+        }
+
+        .btn-modal-excluir::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: rgba(255,255,255,0.35);
+            transform: skewX(-25deg);
+        }
+
+        .btn-modal-excluir:hover::after {
+            animation: brilho 0.6s ease;
+        }
+
+        @keyframes brilho {
+            from { left: -75%; }
+            to { left: 130%; }
         }
 
         @media (max-width: 900px) {
@@ -325,78 +401,9 @@
                 padding: 18px;
             }
         }
-
-        .modal-card {
-    width: 430px;
-    max-width: 90%;
-    background: #ffffff;
-    border-radius: 28px;
-    padding: 34px;
-    text-align: center;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
-    animation: modalPremium 0.35s ease;
-}
-
-.modal-card h2 {
-    color: #1f4690;
-    font-size: 28px;
-    margin-bottom: 12px;
-}
-
-.modal-card p {
-    color: #51627a;
-    font-size: 16px;
-    margin-bottom: 28px;
-}
-
-.btn-cancelar,
-.btn-confirmar {
-    border: none;
-    padding: 13px 28px;
-    border-radius: 16px;
-    font-weight: 800;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.25s ease;
-}
-
-.btn-cancelar {
-    background: #e8eef8;
-    color: #1f4690;
-}
-
-.btn-cancelar:hover {
-    background: #d9e5f7;
-    transform: translateY(-3px) scale(1.04);
-}
-
-.btn-confirmar {
-    background: linear-gradient(135deg, #ff4d5f, #c82333);
-    color: white;
-    box-shadow: 0 12px 28px rgba(220, 53, 69, 0.35);
-}
-
-.btn-confirmar:hover {
-    transform: translateY(-3px) scale(1.06);
-    box-shadow: 0 18px 38px rgba(220, 53, 69, 0.45);
-}
-
-@keyframes modalPremium {
-    0% {
-        opacity: 0;
-        transform: scale(0.82) translateY(35px);
-    }
-    60% {
-        opacity: 1;
-        transform: scale(1.04) translateY(-4px);
-    }
-    100% {
-        transform: scale(1) translateY(0);
-    }
-}
-
     </style>
 </head>
+
 <body>
 
 <div class="layout">
@@ -454,8 +461,8 @@
                 </div>
 
                 <div class="campo">
-                <label for="hora">Horário</label>
-                <input id="hora" type="time" th:field="*{hora}" required>
+                    <label for="hora">Horário</label>
+                    <input id="hora" type="time" th:field="*{hora}" required>
                 </div>
 
                 <div class="campo">
@@ -492,57 +499,58 @@
             <div class="tabela-wrap">
                 <table>
                     <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Telefone</th>
-                            <th>E-mail</th>
-                            <th>Especialidade</th>
-                            <th>Médico</th>
-                            <th>Data</th>
-                            <th>Hora</th>
-                            <th>Observação</th>
-                            <th>Status</th>
-                            <th>Ações</th>
-                        </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>E-mail</th>
+                        <th>Especialidade</th>
+                        <th>Médico</th>
+                        <th>Data</th>
+                        <th>Hora</th>
+                        <th>Observação</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
                     </thead>
+
                     <tbody>
-                        <tr th:each="s : ${solicitacoes}">
-                            <td class="col-id" th:text="${s.id}">1</td>
-                            <td><span class="valor" th:text="${s.nome}">Nome</span></td>
-                            <td><span class="valor" th:text="${s.telefone}">Telefone</span></td>
-                            <td><span class="valor" th:text="${s.email}">email@teste.com</span></td>
-                            <td><span class="valor" th:text="${s.especialidade}">Cardiologia</span></td>
-                            <td><span class="valor" th:text="${s.medico}">Dr. João</span></td>
-                            <td><span class="valor" th:text="${s.dataConsulta}">2026-04-06</span></td>
-                            <td><span class="valor" th:text="${s.hora}">08:00</span></td>
-                            <td><p class="texto-observacao" th:text="${s.observacao}">Observação</p></td>
-                            <td><span class="status" th:text="${s.status}">Pendente</span></td>
-                            <td>
+                    <tr th:each="s : ${solicitacoes}">
+                        <td class="col-id" th:text="${s.id}">1</td>
+                        <td><span class="valor" th:text="${s.nome}">Nome</span></td>
+                        <td><span class="valor" th:text="${s.telefone}">Telefone</span></td>
+                        <td><span class="valor" th:text="${s.email}">email@teste.com</span></td>
+                        <td><span class="valor" th:text="${s.especialidade}">Cardiologia</span></td>
+                        <td><span class="valor" th:text="${s.medico}">Dr. João</span></td>
+                        <td><span class="valor" th:text="${s.dataConsulta}">2026-04-06</span></td>
+                        <td><span class="valor" th:text="${s.hora}">08:00</span></td>
+                        <td><p class="texto-observacao" th:text="${s.observacao}">Observação</p></td>
+                        <td><span class="status" th:text="${s.status}">Pendente</span></td>
 
+                        <td>
                             <div class="acoes-tabela">
-                            <a th:href="@{/solicitacoes/editar/{id}(id=${s.id})}" class="btn-editar">
-                                Editar
-                            </a>
+                                <a th:href="@{/solicitacoes/editar/{id}(id=${s.id})}" class="btn-editar">
+                                    Editar
+                                </a>
 
-                            <a href="#"
-                            class="btn-excluir"
-                            th:attr="data-url=@{/solicitacoes/excluir/{id}(id=${s.id})}"
-                            onclick="abrirModalExcluir(this)">
-                            Excluir
-                            </a>
+                                <a href="#"
+                                   class="btn-excluir"
+                                   th:attr="data-url=@{/solicitacoes/excluir/{id}(id=${s.id})}"
+                                   onclick="abrirModalExcluir(this); return false;">
+                                    Excluir
+                                </a>
 
-                            <a th:href="@{'/solicitacao/confirmar/' + ${s.id}}"
-                            class="btn-confirmar">
-                            Confirmar
-                            </a> 
+                                <a th:href="@{'/solicitacao/confirmar/' + ${s.id}}"
+                                   class="btn-confirmar-solicitacao">
+                                    Confirmar
+                                </a>
                             </div>
-                            </td>
-                        </tr>
+                        </td>
+                    </tr>
 
-                        <tr th:if="${#lists.isEmpty(solicitacoes)}">
-                            <td colspan="10" class="sem-solicitacoes">Nenhuma solicitação cadastrada.</td>
-                        </tr>
+                    <tr th:if="${#lists.isEmpty(solicitacoes)}">
+                        <td colspan="11" class="sem-solicitacoes">Nenhuma solicitação cadastrada.</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -556,8 +564,8 @@
         <p>Deseja excluir essa solicitação?</p>
 
         <div class="modal-botoes">
-            <button onclick="fecharModalExcluir()" class="btn-cancelar">Cancelar</button>
-            <a id="btnConfirmarExcluir" class="btn-confirmar">Excluir</a>
+            <button type="button" onclick="fecharModalExcluir()" class="btn-cancelar">Cancelar</button>
+            <a id="btnConfirmarExcluir" href="#" class="btn-modal-excluir">Excluir</a>
         </div>
     </div>
 </div>
@@ -572,6 +580,12 @@
     function fecharModalExcluir() {
         document.getElementById("modalExcluir").classList.remove("ativo");
     }
+
+    document.getElementById("modalExcluir").addEventListener("click", function (event) {
+        if (event.target === this) {
+            fecharModalExcluir();
+        }
+    });
 </script>
 
 </body>
