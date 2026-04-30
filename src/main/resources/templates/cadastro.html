@@ -5,35 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar Conta - Clínica Imed</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             font-family: "Manrope", Arial, sans-serif;
-            background: linear-gradient(135deg, #22d1c3 0%, #3390f0 100%);
+            background:
+                radial-gradient(circle at top left, rgba(255,255,255,0.35), transparent 35%),
+                linear-gradient(135deg, #22d1c3 0%, #3390f0 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 28px;
         }
 
         .cadastro-box {
             width: 100%;
-            max-width: 480px;
-            background: rgba(255,255,255,0.92);
-            padding: 40px 32px;
-            border-radius: 28px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.18);
+            max-width: 540px;
+            background: rgba(255, 255, 255, 0.94);
+            padding: 42px 34px;
+            border-radius: 30px;
+            box-shadow: 0 28px 70px rgba(0, 0, 0, 0.20);
+            backdrop-filter: blur(12px);
+        }
+
+        .badge {
+            width: fit-content;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: #e7f7ff;
+            color: #1682b8;
+            font-size: 13px;
+            font-weight: 800;
+            margin-bottom: 18px;
         }
 
         .cadastro-box h1 {
             margin: 0 0 10px;
             color: #163b62;
-            font-size: 32px;
+            font-size: 34px;
+            line-height: 1.1;
         }
 
         .cadastro-box p {
             color: #5e7288;
-            margin-bottom: 24px;
+            margin: 0 0 26px;
             line-height: 1.6;
         }
 
@@ -41,6 +62,18 @@
             display: flex;
             flex-direction: column;
             gap: 14px;
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .campo label {
+            font-size: 13px;
+            font-weight: 800;
+            color: #31506d;
         }
 
         .cadastro-box input,
@@ -51,35 +84,68 @@
             border: 1px solid #d7e5f2;
             outline: none;
             font-size: 15px;
-            box-sizing: border-box;
             background: white;
+            transition: 0.25s ease;
         }
 
         .cadastro-box input:focus,
         .cadastro-box select:focus {
-            border-color: #63c6ec;
-            box-shadow: 0 0 0 4px rgba(99, 198, 236, 0.15);
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.18);
+        }
+
+        .campos-medico {
+            display: none;
+            padding: 16px;
+            border-radius: 20px;
+            background: #f3f9ff;
+            border: 1px solid #d9ecfb;
+            gap: 14px;
+        }
+
+        .campos-medico.ativo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .aviso-medico {
+            grid-column: 1 / -1;
+            color: #31506d;
+            font-size: 13px;
+            line-height: 1.4;
+            margin: 0;
         }
 
         .cadastro-box button {
             border: none;
-            min-height: 54px;
+            min-height: 56px;
             border-radius: 999px;
             background: linear-gradient(135deg, #22d1c3, #2b92ef);
             color: white;
             font-size: 16px;
-            font-weight: 800;
+            font-weight: 900;
             cursor: pointer;
-            margin-top: 6px;
+            margin-top: 8px;
+            box-shadow: 0 14px 28px rgba(43, 146, 239, 0.28);
+            transition: 0.25s ease;
+        }
+
+        .cadastro-box button:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 18px 38px rgba(43, 146, 239, 0.36);
+        }
+
+        .cadastro-box button:active {
+            transform: scale(0.97);
         }
 
         .btn-voltar {
             display: block;
             text-align: center;
-            margin-top: 12px;
-            padding: 14px;
+            margin-top: 14px;
+            padding: 15px;
             border-radius: 999px;
-            font-weight: 700;
+            font-weight: 800;
             text-decoration: none;
             color: #1f3c88;
             background: #e9f4ff;
@@ -91,37 +157,93 @@
             transform: translateY(-1px);
         }
 
-        .erro {
+        .erro,
+        .sucesso {
             margin-top: 16px;
-            color: #d93025;
-            font-weight: 700;
+            padding: 13px 15px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .erro {
+            color: #b42318;
+            background: #fff1f0;
+            border: 1px solid #ffd4d0;
         }
 
         .sucesso {
-            margin-top: 16px;
-            color: #188038;
-            font-weight: 700;
+            color: #116329;
+            background: #ecfdf3;
+            border: 1px solid #bbf7d0;
+        }
+
+        @media (max-width: 560px) {
+            .cadastro-box {
+                padding: 32px 22px;
+            }
+
+            .campos-medico.ativo {
+                grid-template-columns: 1fr;
+            }
+
+            .cadastro-box h1 {
+                font-size: 29px;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="cadastro-box">
+    <div class="badge">Clínica Imed</div>
+
     <h1>Criar conta</h1>
-    <p>Cadastre um novo acesso para a Clínica Imed.</p>
+    <p>Cadastre um novo acesso. Se o perfil for médico, informe também CRM e especialidade.</p>
 
     <form th:action="@{/cadastro}" th:object="${usuario}" method="post">
-        <input type="text" th:field="*{nome}" placeholder="Nome completo" required>
-        <input type="email" th:field="*{email}" placeholder="E-mail" required>
-        <input type="password" th:field="*{senha}" placeholder="Senha" required>
 
-        <select th:field="*{perfil}" required aria-label="Selecione o perfil">
-            <option value="">Selecione o perfil</option>
-            <option value="RECEPCAO">Recepção</option>
-            <option value="MEDICO">Médico</option>
-        </select>
+        <div class="campo">
+            <label for="nome">Nome completo</label>
+            <input id="nome" type="text" th:field="*{nome}" placeholder="Nome completo" required>
+        </div>
 
-        <button type="submit">Cadastrar</button>
+        <div class="campo">
+            <label for="email">E-mail</label>
+            <input id="email" type="email" th:field="*{email}" placeholder="E-mail" required>
+        </div>
+
+        <div class="campo">
+            <label for="senha">Senha</label>
+            <input id="senha" type="password" th:field="*{senha}" placeholder="Senha" required>
+        </div>
+
+        <div class="campo">
+            <label for="perfil">Perfil</label>
+            <select id="perfil" th:field="*{perfil}" required aria-label="Selecione o perfil">
+                <option value="">Selecione o perfil</option>
+                <option value="RECEPCAO">Recepção</option>
+                <option value="MEDICO">Médico</option>
+            </select>
+        </div>
+
+        <div id="camposMedico" class="campos-medico">
+            <p class="aviso-medico">
+                Esses dados serão usados para cadastrar automaticamente o médico na página da recepção.
+            </p>
+
+            <div class="campo">
+                <label for="crm">CRM</label>
+                <input id="crm" type="text" name="crm" placeholder="Digite o CRM">
+            </div>
+
+            <div class="campo">
+                <label for="especialidade">Especialidade</label>
+                <input id="especialidade" type="text" name="especialidade" placeholder="Ex: Clínico Geral">
+            </div>
+        </div>
+
+        <button type="submit">Cadastrar conta</button>
     </form>
 
     <div class="erro" th:if="${erro}" th:text="${erro}"></div>
@@ -129,6 +251,29 @@
 
     <a th:href="@{/login}" class="btn-voltar">Voltar para login</a>
 </div>
+
+<script>
+    const perfilSelect = document.getElementById("perfil");
+    const camposMedico = document.getElementById("camposMedico");
+    const crmInput = document.getElementById("crm");
+    const especialidadeInput = document.getElementById("especialidade");
+
+    function atualizarCamposMedico() {
+        const ehMedico = perfilSelect.value === "MEDICO";
+
+        camposMedico.classList.toggle("ativo", ehMedico);
+        crmInput.required = ehMedico;
+        especialidadeInput.required = ehMedico;
+
+        if (!ehMedico) {
+            crmInput.value = "";
+            especialidadeInput.value = "";
+        }
+    }
+
+    perfilSelect.addEventListener("change", atualizarCamposMedico);
+    window.addEventListener("load", atualizarCamposMedico);
+</script>
 
 </body>
 </html>
