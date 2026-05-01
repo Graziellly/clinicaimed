@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Médicos - Clínica Vida</title>
+    <title>Médicos - Clínica Imed</title>
 
     <style>
+        * { box-sizing: border-box; }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -21,9 +23,7 @@
             padding: 25px 20px;
         }
 
-        .menu-lateral h2 {
-            margin-bottom: 20px;
-        }
+        .menu-lateral h2 { margin-bottom: 20px; }
 
         .menu-lateral a {
             display: block;
@@ -35,18 +35,14 @@
             transition: 0.3s;
         }
 
-        .menu-lateral a:hover {
+        .menu-lateral a:hover,
+        .menu-lateral a.ativo {
             background: rgba(255,255,255,0.15);
         }
 
         .logout {
             background: linear-gradient(135deg, #3d6edb, #1f3c88);
             text-align: center;
-        }
-
-        .logout:hover {
-            background: linear-gradient(135deg, #2f5fc7, #162d66);
-            transform: translateY(-1px);
         }
 
         .usuario-logado {
@@ -67,15 +63,10 @@
             background: white;
             padding: 25px;
             border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(31, 60, 136, 0.08);
         }
 
-        h1 {
-            color: #1f3c88;
-        }
-
-        h2 {
-            margin-top: 20px;
-        }
+        h1 { color: #1f3c88; }
 
         .form-medicos {
             display: grid;
@@ -115,18 +106,28 @@
             font-weight: bold;
             cursor: pointer;
             text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.25s ease;
         }
 
         .btn-primario {
             background: linear-gradient(135deg, #3d6edb, #1f3c88);
         }
 
-        .btn-primario:hover {
-            background: linear-gradient(135deg, #2e5cc2, #162d66);
+        .btn-primario:hover,
+        .voltar-link:hover {
+            transform: translateY(-2px);
         }
 
         .btn-excluir {
             background: #e74c3c;
+        }
+
+        .btn-excluir:hover {
+            background: #c0392b;
+            transform: translateY(-2px) scale(1.03);
         }
 
         table {
@@ -163,25 +164,163 @@
             transition: 0.25s ease;
         }
 
-        .voltar-link:hover {
-            background: linear-gradient(135deg, #2f5fc7, #162d66);
-            transform: translateY(-1px);
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(8, 18, 35, 0.55);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s ease;
+        }
+
+        .modal-overlay.ativo {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            width: 430px;
+            max-width: 90%;
+            background: white;
+            border-radius: 28px;
+            padding: 34px;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+            transform: scale(0.82) translateY(35px);
+            transition: 0.35s ease;
+        }
+
+        .modal-overlay.ativo .modal-card {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-card h2 {
+            color: #1f4690;
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .modal-card p {
+            color: #51627a;
+            font-size: 16px;
+            margin-bottom: 28px;
+        }
+
+        .modal-botoes {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .btn-modal-cancelar,
+        .btn-modal-excluir {
+            border: none;
+            padding: 13px 28px;
+            border-radius: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .btn-modal-cancelar {
+            background: #e8eef8;
+            color: #1f4690;
+        }
+
+        .btn-modal-cancelar:hover {
+            background: #d9e5f7;
+            transform: translateY(-3px) scale(1.04);
+        }
+
+        .btn-modal-excluir {
+            background: linear-gradient(135deg, #ff4d5f, #c82333);
+            color: white;
+            box-shadow: 0 12px 28px rgba(220, 53, 69, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-modal-excluir:hover {
+            transform: translateY(-3px) scale(1.06);
+            box-shadow: 0 18px 38px rgba(220, 53, 69, 0.45);
+        }
+
+        .btn-modal-excluir:active,
+        .btn-modal-cancelar:active {
+            transform: scale(0.96);
+        }
+
+        .btn-modal-excluir::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: rgba(255,255,255,0.35);
+            transform: skewX(-25deg);
+        }
+
+        .btn-modal-excluir:hover::after {
+            animation: brilho 0.6s ease;
+        }
+
+        @keyframes brilho {
+            from { left: -75%; }
+            to { left: 130%; }
+        }
+
+        @media (max-width: 900px) {
+            body { flex-direction: column; }
+
+            .menu-lateral {
+                width: 100%;
+                min-height: auto;
+            }
+
+            .form-medicos {
+                grid-template-columns: 1fr;
+            }
+
+            .form-botoes {
+                grid-column: span 1;
+            }
+
+            .conteudo {
+                padding: 18px;
+            }
+
+            table {
+                min-width: 850px;
+            }
+
+            .container {
+                overflow-x: auto;
+            }
         }
     </style>
 </head>
+
 <body>
 
 <nav class="menu-lateral">
-    <h2>Clínica Vida</h2>
+    <h2>Clínica Imed</h2>
 
     <p class="usuario-logado">
         Olá, <span th:text="${session.usuarioLogado}"></span>
     </p>
 
-    <a th:href="@{/}">Dashboard</a>
+    <a th:href="@{/dashboard-recepcao}">Dashboard</a>
     <a th:href="@{/pacientes}">Pacientes</a>
-    <a th:href="@{/medicos}">Médicos</a>
+    <a th:href="@{/medicos}" class="ativo">Médicos</a>
     <a th:href="@{/consultas}">Consultas</a>
+    <a th:href="@{/solicitacoes}">Solicitações</a>
     <a th:href="@{/logout}" class="logout">Sair</a>
 </nav>
 
@@ -224,36 +363,72 @@
 
         <table>
             <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Especialidade</th>
-                    <th>CRM</th>
-                    <th>E-mail</th>
-                    <th>Ações</th>
-                </tr>
+            <tr>
+                <th>Nome</th>
+                <th>Especialidade</th>
+                <th>CRM</th>
+                <th>E-mail</th>
+                <th>Ações</th>
+            </tr>
             </thead>
 
             <tbody>
-                <tr th:each="m : ${medicos}">
-                    <td th:text="${m.nome}"></td>
-                    <td th:text="${m.especialidade}"></td>
-                    <td th:text="${m.crm}"></td>
-                    <td th:text="${m.email}"></td>
-                    <td class="acoes">
-                        <a th:href="@{'/medicos/excluir/' + ${m.id}}"
-                           class="btn btn-excluir"
-                           onclick="return confirm('Tem certeza que deseja excluir este médico?')">
-                            Excluir
-                        </a>
-                    </td>
-                </tr>
+            <tr th:each="m : ${medicos}">
+                <td th:text="${m.nome}"></td>
+                <td th:text="${m.especialidade}"></td>
+                <td th:text="${m.crm}"></td>
+                <td th:text="${m.email}"></td>
+                <td class="acoes">
+                    <a href="#"
+                       class="btn btn-excluir"
+                       th:attr="data-url=@{/medicos/excluir/{id}(id=${m.id})}"
+                       onclick="abrirModalExcluirMedico(this); return false;">
+                        Excluir
+                    </a>
+                </td>
+            </tr>
             </tbody>
         </table>
 
-        <a th:href="@{/}" class="voltar-link">Voltar</a>
+        <a th:href="@{/dashboard-recepcao}" class="voltar-link">Voltar</a>
 
     </div>
 </div>
+
+<div id="modalExcluirMedico" class="modal-overlay">
+    <div class="modal-card">
+        <h2>Excluir médico?</h2>
+        <p>Deseja excluir este médico?</p>
+
+        <div class="modal-botoes">
+            <button type="button" onclick="fecharModalExcluirMedico()" class="btn-modal-cancelar">
+                Cancelar
+            </button>
+
+            <a id="btnConfirmarExcluirMedico" href="#" class="btn-modal-excluir">
+                Excluir
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function abrirModalExcluirMedico(elemento) {
+        const url = elemento.getAttribute("data-url");
+        document.getElementById("btnConfirmarExcluirMedico").setAttribute("href", url);
+        document.getElementById("modalExcluirMedico").classList.add("ativo");
+    }
+
+    function fecharModalExcluirMedico() {
+        document.getElementById("modalExcluirMedico").classList.remove("ativo");
+    }
+
+    document.getElementById("modalExcluirMedico").addEventListener("click", function (event) {
+        if (event.target === this) {
+            fecharModalExcluirMedico();
+        }
+    });
+</script>
 
 </body>
 </html>
