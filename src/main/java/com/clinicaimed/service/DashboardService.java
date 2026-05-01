@@ -3,6 +3,7 @@ package com.clinicaimed.service;
 import com.clinicaimed.repository.ConsultaRepository;
 import com.clinicaimed.repository.MedicoRepository;
 import com.clinicaimed.repository.PacienteRepository;
+import com.clinicaimed.repository.SolicitacaoRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,15 +14,18 @@ public class DashboardService {
     private final PacienteRepository pacienteRepository;
     private final MedicoRepository medicoRepository;
     private final ConsultaRepository consultaRepository;
+    private final SolicitacaoRepository solicitacaoRepository;
 
     public DashboardService(
             PacienteRepository pacienteRepository,
             MedicoRepository medicoRepository,
-            ConsultaRepository consultaRepository
+            ConsultaRepository consultaRepository,
+            SolicitacaoRepository solicitacaoRepository
     ) {
         this.pacienteRepository = pacienteRepository;
         this.medicoRepository = medicoRepository;
         this.consultaRepository = consultaRepository;
+        this.solicitacaoRepository = solicitacaoRepository;
     }
 
     public long totalPacientes() {
@@ -36,14 +40,13 @@ public class DashboardService {
         return consultaRepository.count();
     }
 
+    // 🔥 MAIS PERFORMÁTICO
     public long consultasHoje() {
-        return consultaRepository.findAll()
-                .stream()
-                .filter(c -> c.getData() != null && c.getData().equals(LocalDate.now()))
-                .count();
+        return consultaRepository.countByData(LocalDate.now());
     }
 
+    // 🔥 AGORA FUNCIONA DE VERDADE
     public long solicitacoesPendentes() {
-        return 0;
+        return solicitacaoRepository.countByStatus("Pendente");
     }
 }
