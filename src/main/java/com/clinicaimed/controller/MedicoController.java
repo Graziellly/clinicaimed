@@ -1,6 +1,7 @@
 package com.clinicaimed.controller;
 
 import com.clinicaimed.entity.Medico;
+import com.clinicaimed.repository.ConsultaRepository;
 import com.clinicaimed.repository.MedicoRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -10,11 +11,15 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class MedicoController {
 
+    private final ConsultaRepository consultaRepository;
     private final MedicoRepository medicoRepository;
+    
 
-    public MedicoController(MedicoRepository medicoRepository) {
-        this.medicoRepository = medicoRepository;
-    }
+    public MedicoController(MedicoRepository medicoRepository,
+                        ConsultaRepository consultaRepository) {
+    this.medicoRepository = medicoRepository;
+    this.consultaRepository = consultaRepository;
+}
 
     @GetMapping("/medicos")
     public String listarMedicos(HttpSession session, Model model) {
@@ -53,13 +58,18 @@ public class MedicoController {
 
     @GetMapping("/medicos/excluir/{id}")
     public String excluirMedico(@PathVariable Long id, HttpSession session) {
-        if (session.getAttribute("usuarioLogado") == null) {
-            return "redirect:/login";
-        }
 
-        medicoRepository.deleteById(id);
-        return "redirect:/medicos";
+    if (session.getAttribute("usuarioLogado") == null) {
+        return "redirect:/login";
     }
+
+    if (consultaRepository.existsByMedico_Id(id)) {
+        return "redirect:/medicos?erro=Medico possui consultas cadastradas";
+    }
+
+    medicoRepository.deleteById(id);
+    return "redirect:/medicos";
+}
 
     
 }
